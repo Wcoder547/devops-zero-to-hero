@@ -1,0 +1,13 @@
+apiVersion: malikwasim.dev/v1
+kind: DevOpsBatch
+metadata:
+  name: junoon-batch-10
+spec:
+  name: "DevOps Zero to Hero - Junoon Batch 10"
+  duration: "3 months"
+  platform: trainwithshubham.com
+  mode: "Live"
+  startDate: "2025-01-25"
+  trainer: "Waseem Malik"
+  status: "upcoming"
+

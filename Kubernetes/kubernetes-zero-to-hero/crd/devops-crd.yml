@@ -1,0 +1,54 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: devopsbatches.malikwasim.dev
+spec:
+  group: malikwasim.dev
+  scope: Namespaced
+  names:
+    plural: devopsbatches
+    singular: devopsbatch
+    kind: DevOpsBatch
+    shortNames:
+      - junoon
+      - batches
+      - waseem
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: |
+            DevOpsBatch is a custom Kubernetes resource that represents a structured DevOps training batch
+            as part of Malik Wasim's hands-on DevOps journey. It allows you to manage, automate,
+            and organize batches like Junoon directly in a Kubernetes-native way.
+          properties:
+            spec:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: "The title of the DevOps batch (e.g., 'Junoon 6', 'Batch 7')"
+                duration:
+                  type: string
+                  description: "Duration of the batch (e.g., '8 weeks', '2 months')"
+                mode:
+                  type: string
+                  description: "Learning mode of the batch: 'Live', 'Recorded', or 'Hybrid'"
+                platform:
+                  type: string
+                  description: "Platform used to deliver the training (e.g., 'Zoom', 'YouTube', 'LMS')"
+                startDate:
+                  type: string
+                  format: date
+                  description: "Start date of the batch in YYYY-MM-DD format"
+                trainer:
+                  type: string
+                  description: "Name of the trainer leading this batch"
+                status:
+                  type: string
+                  enum: ["upcoming", "active", "completed"]
+                  description: "Current status of the batch"
+
