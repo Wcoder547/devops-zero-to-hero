@@ -1,0 +1,54 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  order-api:
+    host: 'localhost'
+    paths:
+      - '/order/*'
+  customer-api:
+    host: 'localhost'
+    paths:
+      - '/customer/*'
+serviceEndpoints:
+  order-service:
+    url: 'http://order-service:8005'
+  customer-service:
+    url: 'http://customer-service:8004'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  customer-pipeline:
+    apiEndpoints:
+      - customer-api
+    policies:
+      - cors:
+          - action:
+              origin: 'http://localhost:3000'
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ]
+      - proxy:
+          - action:
+              serviceEndpoint: customer-service
+              changeOrigin: true
+  order-pipeline:
+    apiEndpoints:
+      - order-api
+    policies:
+      - cors:
+          - action:
+              origin: 'http://localhost:3000'
+              methods: [ 'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' ]
+      - proxy:
+          - action:
+              serviceEndpoint: order-service
+              changeOrigin: true
+

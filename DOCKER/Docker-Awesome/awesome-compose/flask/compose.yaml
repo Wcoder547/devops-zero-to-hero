@@ -1,0 +1,32 @@
+version: '3.8'
+
+   services:
+     web:
+       build:
+         context: ./app
+       ports:
+         - "5000:5000"
+       depends_on:
+         - db
+         - redis
+       environment:
+         POSTGRES_HOST: db
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: password
+         POSTGRES_DB: postgres
+         REDIS_HOST: redis
+
+     db:
+       image: postgres:13
+       environment:
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: password
+         POSTGRES_DB: postgres
+       ports:
+         - "5432:5432"
+
+     redis:
+       image: redis:alpine
+       ports:
+         - "6379:6379"
+   

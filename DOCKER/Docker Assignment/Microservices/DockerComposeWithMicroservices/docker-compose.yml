@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust  # Allow access without a password
+      POSTGRES_USER: isuruvithanage
+      POSTGRES_DB: order_service_db
+    ports:
+      - '2345:5432'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Include an initialization script
+
+  api-gateway:
+    build: ./APIGateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - order-service
+
+  order-service:
+    build: ./OrderService
+    ports:
+      - "8005:8005"
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: order_service_db
+      DATABASE_USER: isuruvithanage
+    depends_on:
+      - postgres
+
+  customer-service:
+    build: ./CustomerService
+    ports:
+      - "8004:8004"
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: customer_service_db
+      DATABASE_USER: isuruvithanage
+    depends_on:
+      - postgres
